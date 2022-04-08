@@ -1,0 +1,18 @@
+#format of test.txt is 
+#a	 y	where y is a 4 input XOR ( y when a is 2  [ line 5 of this file ] is incorrect on purpose)
+0000 1
+0001 1
+0010 0
+0011 0
+0100 1
+0101 0
+0110 0
+0111 1
+1000 1
+1001 0
+1010 0
+1011 1
+1100 0
+1101 1
+1110 1
+1111 0

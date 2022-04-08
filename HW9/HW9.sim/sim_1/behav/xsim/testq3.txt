@@ -1,0 +1,11 @@
+#Format of test.txt is: (abc for 001 aka 1 on line 5 intentionally incorrect)
+#y = a~b + ~b~c + ~abc
+#a b c y	
+0 0 0 1
+0 0 1 1
+0 1 0 0
+0 1 1 1
+1 0 0 1
+1 0 1 1
+1 1 0 0
+1 1 1 0
