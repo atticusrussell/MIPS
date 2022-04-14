@@ -48,7 +48,7 @@ architecture Behavioral of InstructionMemory is
 -- [x] ADDI,      op-code: "001000"    Ex. ADDI    rt, rs, imm  :   R[rt] <= R[rs] + imm
 -- [x] ANDI,      op-code: "001100"    Ex. ANDI    rt, rs, imm  :   R[rt] <= R[rs] AND imm
 -- [x] ORI,       op-code: "001101"    Ex. ORI     rt, rs, imm  :   R[rt] <= R[rs] OR imm
--- [x] XORI,      op-code: "001110"    Ex. XORI    rt, rs, imm  :   R[rt] <= R[rs] XOR imm
+-- [x] XORI,      op-copde: "001110"    Ex. XORI    rt, rs, imm  :   R[rt] <= R[rs] XOR imm
 -- [x] SW,        op-code: "101011"    Ex. SW      rt, imm(rs) : Mem[R[rs] + imm] <= R[rt]
 -- [x] LW,        op-code: "100011"    Ex. LW      rt, imm(rs) : R[rt] <= Mem[R[rs] + imm]
 --------------------------------------------------------------------------------
@@ -148,7 +148,8 @@ architecture Behavioral of InstructionMemory is
     x"00",x"00",x"00",x"00",
 	x"00",x"00",x"00",x"00", 
 
-	/*  SRAV value in R6(exp -52) by value in R4(exp 1) and store result in R7 (exp -25 aka 0xFFFFFFE6)  rd=rt>>rs	jk tho because swapped this all around and it works??
+	/*  SRAV value in R6(exp -52) by value in R4(exp 1) and store result in R7 (exp -25 aka 0xFFFFFFE6)  
+    rd=rt>>rs	jk tho because swapped this all around and it works??
 	         rd, rs, rt this could all be lies and propoganda
 	    SRAV R7, R4, R6  | Op-code | rs   | rt    |   rd | sh_amt | function (fake) |
         32x"00C43803"      000000   00110  00100   00111  00000     000011       */
@@ -159,7 +160,8 @@ architecture Behavioral of InstructionMemory is
     x"00",x"00",x"00",x"00",
 	x"00",x"00",x"00",x"00", 
 
-	/*  SRLV value in R7(exp -25 aka FFFFFFE6) by value in R4(exp 1) and store result in R8 (exp 2,147,483,635 aka 0x7FFFFFF3)  
+	/*  SRLV value in R7(exp -25 aka FFFFFFE6) by value in R4(exp 1) and store result in R8 
+    (exp 2,147,483,635 aka 0x7FFFFFF3)  
 			 rd, rs, rt this could all be lies and propoganda
 	    SRLV R8, R4, R6  | Op-code | rs   | rt    |   rd | sh_amt | function (fake) |
         32x"00E44002"      000000   00111  00100   01000  00000     000010       */
@@ -170,7 +172,8 @@ architecture Behavioral of InstructionMemory is
     x"00",x"00",x"00",x"00",
 	x"00",x"00",x"00",x"00", 
 
-	/* XOR value in R8(2,147,483,635 aka 0x7FFFFFF3) with value in R7(exp -25 aka 0xFFFFFFE6) and store result in r9 (exp -2,147,483,627 aka 0x80000015)  
+	/* XOR value in R8(2,147,483,635 aka 0x7FFFFFF3) with value in R7(exp -25 aka 0xFFFFFFE6) and 
+    store result in r9 (exp -2,147,483,627 aka 0x80000015)  
     XOR R9, R7, R8  | Op-code | rs   | rt    |   rd | sh_amt | function |
     32x"00E84826"      000000  00111   01000   01001  00000    100110       */
 	x"00",x"E8",x"48",x"26",
@@ -245,7 +248,8 @@ architecture Behavioral of InstructionMemory is
     32x"0xxxxxxx"      000000  00001   00010   00011  00000    100000       */
     --x"0x",x"xx",x"xx",x"xx",
 
-	-- TODO: lab 6 part B probably Branch off and write MIPS program that perform the fibonacci sequence and generate at least the first 10 Fib numbers
+	-- TODO: lab 6 part B probably Branch off and write MIPS program that perform the 
+    -- fibonacci sequence and generate at least the first 10 Fib numbers
     
     others =>x"00"
     );
