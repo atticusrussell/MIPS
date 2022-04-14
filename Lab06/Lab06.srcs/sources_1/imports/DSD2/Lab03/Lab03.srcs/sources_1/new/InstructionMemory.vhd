@@ -230,6 +230,15 @@ architecture Behavioral of InstructionMemory is
 
 	-- NOTE: the above instructions were tested and confirmed to function properly
 
+	-- TODO: somehow test all the functionality automatically in a testbench maybe?
+	-- [ ]: store each of the instructions 1-14 currently in the RegisterFile into corresponding spots in Data Memory
+	-- [ ]: then load each of the instructions from Data Memory 
+	-- NOTE: the rest of it is a problem for the TestBench
+
+
+
+
+	
     -- I-type template (store / load)
     /* xxxx value of xxxx into mem addr xxxx using xxxx  
     -- xW $x, $x, 0xXX  | Op-code | rs  |  rt   |     imm          |

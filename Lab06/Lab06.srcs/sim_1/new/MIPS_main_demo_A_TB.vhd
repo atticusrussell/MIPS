@@ -36,12 +36,6 @@ architecture bench of MIPS_main_demo_A_TB is
     signal ALUResult_top: STD_LOGIC_VECTOR (31 downto 0);
     signal Result_top: STD_LOGIC_VECTOR (31 downto 0);
 
-    /* --optional for my convenience
-	signal IF_out_Instruction_top : STD_LOGIC_VECTOR (31 downto 0);
-	signal ID_in_Instruction_top : STD_LOGIC_VECTOR (31 downto 0);
-	signal ID_out_ALUControl_top : STD_LOGIC_VECTOR (3 downto 0);
-	signal Ex_in_ALUControl_top : STD_LOGIC_VECTOR (3 downto 0); */
-
     --other constants
 	constant C_CLK_PERIOD : time := 20 ns;
 
@@ -58,11 +52,7 @@ begin
 			rst_top       => rst_top,
 			ALUResult_top => ALUResult_top,
             Result_top    => Result_top
-            --added ones
-			/* IF_out_Instruction_top =>  IF_out_Instruction_top,
-			ID_in_Instruction_top => ID_in_Instruction_top,
-			ID_out_ALUControl_top => ID_out_ALUControl_top,
-			Ex_in_ALUControl_top => Ex_in_ALUControl_top */
+        
 		);	
     ----------------------------------------------------------
 
