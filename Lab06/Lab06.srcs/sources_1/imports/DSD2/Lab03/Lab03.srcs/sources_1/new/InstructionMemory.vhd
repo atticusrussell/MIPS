@@ -12,65 +12,51 @@ architecture Behavioral of InstructionMemory is
     type mem_type is array (0 to 1023) of std_logic_vector (7 downto 0);
     signal inst_mem : mem_type := (
 
-    /* these instructions are just filler from lab 3 that show the InstructionMem works 
-         
-    x"00",x"00",x"00",x"00",
-    x"11",x"11",x"11",x"11",
-    x"22",x"22",x"22",x"22",
-    x"1f",x"2e",x"3d",x"4c",
-    x"fa",x"ce",x"fa",x"ce",
-    x"ca",x"fe",x"ca",x"fe",
-    x"00",x"0d",x"ec",x"af",
-    x"fa",x"de",x"fa",x"de",
-    x"00",x"de",x"fa",x"ce",
-    */
-
+--------------------------------------------------------------------------------    
+--	lab 6 part A write instructions that test each of our MIPS operations
+--	NOTE put 3 NOPs between each instruction for pipelining
+------------------------------------------------------------------------
+--	R-type 
+--	R-type instructions interact only with registers
+--  R-type instructions have 32 bits formatted as such:
+--  part:    | Op-code | rs | rt | rd | sh_amt | function |
+--  bits:    |    6    | 5  | 5  | 5  |   5    |     6    |
+--
+--  R-type opcodes are "000000"
+--
+--  R-type functions implemented in this MIPS processor are as follows:
+-- (tested)
+-- [x] ADD,      function: "100000"    Ex. ADD     rd, rs, rt  :   R[rd] <= R[rs] + R[rt]
+-- [x] AND,      function: "100100"    Ex. AND     rd, rs, rt  :   R[rd] <= R[rs] AND R[rt] 
+-- [x] MULTU,    function: "011001"    Ex. MULTU   rd, rs, rt  :   R[rd] <= R[rs] x R[rt] unsigned mult
+-- [x] OR,       function: "100101"    Ex. OR      rd, rs, rt  :   R[rd] <= R[rs] OR R[rt]
+-- [x] SLLV,     function: "000000"    Ex. SLLV    rd, rt, rs  :   R[rd] <= R[rs] << R[rt]   shift rs left by rt
+-- [x] SRLV,     function: "000010"    Ex. SRLV    rd, rt, rs  :   R[rd] <= R[rs] >> R[rt]  shift rs right by rt
+-- [x] SRAV,     function: "000011"    Ex. SRAV    rd, rt, rs  :   R[rd] <= R[rs] >> R[rt]  shift rs right by rt and sign extend
+-- [x] SUB,      function: "100010"    Ex. SUB     rd, rs, rt  :   R[rd] <= R[rs] - R[rt]  
+-- [x] XOR,      function: "100110"    Ex. XOR     rd, rs, rt  :   R[rd] <= R[rs] XOR R[rt]  
+--
+--------------------------------------------------------------------------------
+--	I-type
+--  I-type instructions interact with immediate values, registers, and (sometimes) memory
+--  I-type instructions have 32 bits formatted as such:
+--  part:    | Op-code | rs | rt | imm |
+--  bits:    |    6    | 5  | 5  | 16  |   
+--
+--  I-type instructions implemented in this MIPS processor are as follows:
+--  (tested)
+-- [x] ADDI,      op-code: "001000"    Ex. ADDI    rt, rs, imm  :   R[rt] <= R[rs] + imm
+-- [x] ANDI,      op-code: "001100"    Ex. ANDI    rt, rs, imm  :   R[rt] <= R[rs] AND imm
+-- [x] ORI,       op-code: "001101"    Ex. ORI     rt, rs, imm  :   R[rt] <= R[rs] OR imm
+-- [x] XORI,      op-code: "001110"    Ex. XORI    rt, rs, imm  :   R[rt] <= R[rs] XOR imm
+-- [x] SW,        op-code: "101011"    Ex. SW      rt, imm(rs) : Mem[R[rs] + imm] <= R[rt]
+-- [x] LW,        op-code: "100011"    Ex. LW      rt, imm(rs) : R[rt] <= Mem[R[rs] + imm]
+--------------------------------------------------------------------------------
     
-    --lab 6 part A write instructions that test each of our MIPS operations
-
-    --do I need 4 no-ops between each instruction?
-
-    /* 
-    R-type instructions interact only with registers
-    the R-type instructions have 32 bits formatted as such:
-
-    part:    | Op-code | rs | rt | rd | sh_amt | function |
-    bits:    |    6    | 5  | 5  | 5  |   5    |     6    |
-
-    R-type opcodes are "000000"
-    
-    R-type functions are as follows:
-    ADD,      function: "100000"    Ex. ADD     rd, rs, rt  :   R[rd] <= R[rs] + R[rt]
-    AND,      function: "100100"    Ex. AND     rd, rs, rt  :   R[rd] <= R[rs] AND R[rt] 
-    MULTU,    function: "011001"    Ex. MULTU   rd, rs, rt  :   R[rd] <= R[rs] x R[rt] unsigned mult
-    OR,       function: "100101"    Ex. OR      rd, rs, rt  :   R[rd] <= R[rs] OR R[rt]
-	SLLV,     function: "000000"    Ex. SLLV     rd, rt, rs  :   R[rd] <= R[rs] << R[rt]   shift rs left by rt
-	SRLV,     function: "000010"    Ex. SRLV     rd, rt, rs  :   R[rd] <= R[rs] >> R[rt]  shift rs right by rt
-	SRAV,     function: "000011"    Ex. SRAV     rd, rt, rs  :   R[rd] <= R[rs] >> R[rt]  shift rs right by rt and sign extend
-    SUB,      function: "100010"    Ex. SUB     rd, rs, rt  :   R[rd] <= R[rs] - R[rt]  
-    XOR,      function: "100110"    Ex. XOR     rd, rs, rt  :   R[rd] <= R[rs] XOR R[rt]  
-    
-    I-type instructions interact with immediate values, registers, and (sometimes) memory
-    the I-type instructions have 32 bits formatted as such:
-    part:    | Op-code | rs | rt | imm |
-    bits:    |    6    | 5  | 5  | 16  |   
-    
-    I-type opcodes are as follows:
-    ADDI,      op-code: "001000"    Ex. ADDI    rt, rs, imm  :   R[rt] <= R[rs] + imm
-    ANDI,      op-code: "001100"    Ex. ANDI    rt, rs, imm  :   R[rt] <= R[rs] AND imm
-    ORI,       op-code: "001101"    Ex. ORI     rt, rs, imm  :   R[rt] <= R[rs] OR imm
-    XORI,      op-code: "001110"    Ex. XORI    rt, rs, imm  :   R[rt] <= R[rs] XOR imm
-    SW,        op-code: "101011"    Ex. SW      rt, imm(rs) : Mem[R[rs] + imm] <= R[rt]
-    LW,        op-code: "100011"    Ex. LW      rt, imm(rs) : R[rt] <= Mem[R[rs] + imm]
-    
-    */
 
     --load values into registers and into data memory to use to test other operations
-    --begin with one no-op
+	--HACK: begin with one no-op - this stops my code from breaking. Not sure why at all but otherwise first instruction disappears in simulation
 	x"00",x"00",x"00",x"00", 
-	--NOTE: this stops my code from breaking. Not sure why at all but otherwise first instruction disappears
-
-
 
     /* load value of 4 into register R1 using ORI with R0 
     -- ORI $1, $0, 0x04  | Op-code | rs  |  rt   |     imm          |
@@ -117,33 +103,6 @@ architecture Behavioral of InstructionMemory is
     -- LW $4, 0($0)      | Op-code | rs   |  rt   |     imm          |
     32x"8C040000"          100011   00000  00100   0000000000000000         */
 	x"8C",x"04",x"00",x"00",
-
-	--NOTE: all of these instructions up to here have been tested/ simulated and confirmed to work as intended with 3 NOPs in 
-
-	
-	/*  Operations to test.
-        Done in the above code and functions correctly:
-        [x] ORI
-        [x] ADD
-        [x] SW
-        [x] LW
-        
-        TODO: still need to write mips instructions to test the following operations
-        R-type remaining
-        [ ] OR
-        [x] AND
-        [ ] XOR
-	    [x] SLLV
-        [ ] SRLV
-        [ ] SRAV
-	    [x] SUB
-        [ ] MULTU
-	       
-        I-type remaining
-        [ ] ANDI
-        [ ] XORI
-	    [ ] ADDI
-	 */
 
 	--follow prev with three NOPs
     x"00",x"00",x"00",x"00", 
@@ -213,44 +172,62 @@ architecture Behavioral of InstructionMemory is
     x"00",x"00",x"00",x"00",
 	x"00",x"00",x"00",x"00", 
 
+	/* XOR value in R8(2,147,483,635 aka 0x7FFFFFF3) with value in R7(exp -25 aka 0xFFFFFFE6) and store result in r9 (exp -2,147,483,627 aka 0x80000015)  
+    XOR R9, R7, R8  | Op-code | rs   | rt    |   rd | sh_amt | function |
+    32x"00E84826"      000000  00111   01000   01001  00000    100110       */
+	x"00",x"E8",x"48",x"26",
+
+	--follow it with three NOPs
+    x"00",x"00",x"00",x"00", 
+    x"00",x"00",x"00",x"00",
+	x"00",x"00",x"00",x"00", 
+	
+	/* MULTU value in R2(exp 3) from value in R1(exp 4) and store result in R10 (exp 12 aka 0xC)  
+    MULTU R10, R1, R2  | Op-code | rs   | rt    |   rd | sh_amt | function |
+    32x"00225019"        000000    00001   00010  01010  00000    011001       */
+	x"00",x"22",x"50",x"19",
+
+	--follow it with three NOPs
+    x"00",x"00",x"00",x"00", 
+    x"00",x"00",x"00",x"00",
+	x"00",x"00",x"00",x"00", 
+
+	/* OR value in R2(exp 3) from value in R1(exp 4) and store result in R11 (exp 7)  
+    OR R11, R1, R2  | Op-code | rs   | rt    |   rd | sh_amt | function |
+    32x"00225019"     000000    00001   00010  01011  00000    100101       */
+	x"00",x"22",x"58",x"25",
+
+	--follow it with three NOPs
+    x"00",x"00",x"00",x"00", 
+    x"00",x"00",x"00",x"00",
+	x"00",x"00",x"00",x"00", 
+
+	/* XORI value in R10(exp 12 aka 0xC) with imm 0x3 and store result in R12(exp 15 aka 0xF)
+    -- XORI R12, R10, 0x03  | Op-code | rs  |  rt   |     imm          |
+    32x"394C0003"         	 001110    01010  01100   0000000000000011           */
+	x"39",x"4C",x"00",x"03",
+
+	--follow it with three NOPs
+    x"00",x"00",x"00",x"00", 
+    x"00",x"00",x"00",x"00",
+	x"00",x"00",x"00",x"00", 
+
+	/* ANDI value in R10(exp 12 aka 0xC) with imm 0xC and store result in R13(exp 12 aka 0xC)
+    -- ANDI R13, R12, 0xC  | Op-code | rs  |  rt   |     imm          |
+    32x"318D000C"         	 001100    01100  01101   0000000000001100           */
+	x"31",x"8D",x"00",x"0C",
+
+	--follow it with three NOPs
+    x"00",x"00",x"00",x"00", 
+    x"00",x"00",x"00",x"00",
+	x"00",x"00",x"00",x"00",
+
+	/* ADDI value in R10(exp 12 aka 0xC) with imm 0xC and store result in R14(exp 24 aka 0x18)
+    -- ADDI R14, R10, 0xC  | Op-code | rs  |  rt   |     imm          |
+    32x"214E000C"         	 001000   01010  01110   0000000000001100           */
+	x"21",x"4E",x"00",x"0C",
+
 	-- NOTE: the above instructions were tested and confirmed to function properly
-
-	
-
-
-
-	
-
-	
-
-
-
-
-
-	
-
-
-
-
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-
-	
 
 
     -- I-type template (store / load)
@@ -272,11 +249,7 @@ architecture Behavioral of InstructionMemory is
     --x"0x",x"xx",x"xx",x"xx",
 
 
-    
     --lab 6 part B write MIPS program that perform the fibonacci sequence and generate at least the first 10 Fib numbers
-    
-
-
     
     others =>x"00"
     );
