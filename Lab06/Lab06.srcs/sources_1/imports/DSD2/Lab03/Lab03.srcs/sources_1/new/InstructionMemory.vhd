@@ -53,7 +53,6 @@ architecture Behavioral of InstructionMemory is
 -- [x] LW,        op-code: "100011"    Ex. LW      rt, imm(rs) : R[rt] <= Mem[R[rs] + imm]
 --------------------------------------------------------------------------------
     
-
     --load values into registers and into data memory to use to test other operations
 	--HACK: begin with one no-op - this stops my code from breaking. Not sure why at all but otherwise first instruction disappears in simulation
 	x"00",x"00",x"00",x"00", 
@@ -68,7 +67,6 @@ architecture Behavioral of InstructionMemory is
     x"00",x"00",x"00",x"00",
     x"00",x"00",x"00",x"00", 
     
-
     /* load value of 3 into register R2 using ORI with R0 
     -- ORI $2, $0, 0x03  | Op-code | rs  |  rt   |     imm          |
     32x"34020003"          001101   00000  00010   0000000000000011         */
@@ -129,10 +127,10 @@ architecture Behavioral of InstructionMemory is
     x"00",x"00",x"00",x"00",
 	x"00",x"00",x"00",x"00", 
 
-	/*  SLLV value in R3(exp 7) by value in R2(exp 3) and store result in R5 (exp 56 aka 0x38)  
-	         rd, rt, rs
-	    SLLV R5, R2, R3  | Op-code | rs   | rt    |   rd | sh_amt | function (fake) |
-        32x"00622800"      000000   00011  00010   00101  00000     000000       */
+	/* SLLV value in R3(exp 7) by value in R2(exp 3) and store result in R5 (exp 56 aka 0x38)  
+         rd, rt, rs
+    SLLV R5, R2, R3  | Op-code | rs   | rt    |   rd | sh_amt | function (fake) |
+    32x"00622800"      000000   00011  00010   00101  00000     000000       */
 	x"00",x"62",x"28",x"00",
 
 	--follow it with three NOPs
@@ -229,7 +227,6 @@ architecture Behavioral of InstructionMemory is
 
 	-- NOTE: the above instructions were tested and confirmed to function properly
 
-
     -- I-type template (store / load)
     /* xxxx value of xxxx into mem addr xxxx using xxxx  
     -- xW $x, $x, 0xXX  | Op-code | rs  |  rt   |     imm          |
@@ -248,8 +245,7 @@ architecture Behavioral of InstructionMemory is
     32x"0xxxxxxx"      000000  00001   00010   00011  00000    100000       */
     --x"0x",x"xx",x"xx",x"xx",
 
-
-    --lab 6 part B write MIPS program that perform the fibonacci sequence and generate at least the first 10 Fib numbers
+	-- TODO: lab 6 part B probably Branch off and write MIPS program that perform the fibonacci sequence and generate at least the first 10 Fib numbers
     
     others =>x"00"
     );
