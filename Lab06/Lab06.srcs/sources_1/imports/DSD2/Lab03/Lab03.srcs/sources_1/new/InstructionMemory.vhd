@@ -53,8 +53,9 @@ architecture Behavioral of InstructionMemory is
 -- [x] LW,        op-code: "100011"    Ex. LW      rt, imm(rs) : R[rt] <= Mem[R[rs] + imm]
 --------------------------------------------------------------------------------
     
-    --load values into registers and into data memory to use to test other operations
-	--HACK: begin with one no-op - this stops my code from breaking. Not sure why at all but otherwise first instruction disappears in simulation
+	--load values into registers and into data memory to use to test other operations
+	
+	--HACK: begin with one no-op - this stops my code from breaking. I think it's because I reset in my simulation right away
 	x"00",x"00",x"00",x"00", 
 
     /* load value of 4 into register R1 using ORI with R0 
@@ -229,14 +230,6 @@ architecture Behavioral of InstructionMemory is
 	x"21",x"4E",x"00",x"0C",
 
 	-- NOTE: the above instructions were tested and confirmed to function properly
-
-	-- TODO: somehow test all the functionality automatically in a testbench maybe?
-	-- [ ]: store each of the instructions 1-14 currently in the RegisterFile into corresponding spots in Data Memory
-	-- [ ]: then load each of the instructions from Data Memory 
-	-- NOTE: the rest of it is a problem for the TestBench
-
-
-
 
 	
     -- I-type template (store / load)
