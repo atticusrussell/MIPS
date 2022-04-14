@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="MIPS_main_demo_A_TB_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="MIPS_main_demo_A_TB" />
+            <top_module name="globals" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="392923334fs"></ZoomStartTime>
+      <ZoomEndTime time="609123335fs"></ZoomEndTime>
+      <Cursor1Time time="437990000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="288"></NameColumnWidth>
+      <ValueColumnWidth column_width="97"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="2" />
+   <wvobject fp_name="group71" type="group">
+      <obj_property name="label">Top</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="group136" type="group">
+         <obj_property name="label">justDontCollapse</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/ALUResult_top" type="array">
+            <obj_property name="ElementShortName">ALUResult_top[31:0]</obj_property>
+            <obj_property name="ObjectShortName">ALUResult_top[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/Result_top" type="array">
+            <obj_property name="ElementShortName">Result_top[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Result_top[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="/MIPS_main_demo_A_TB/clk_top" type="logic">
+         <obj_property name="ElementShortName">clk_top</obj_property>
+         <obj_property name="ObjectShortName">clk_top</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MIPS_main_demo_A_TB/rst_top" type="logic">
+         <obj_property name="ElementShortName">rst_top</obj_property>
+         <obj_property name="ObjectShortName">rst_top</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group65" type="group">
+      <obj_property name="label">Everything Else</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="group66" type="group">
+         <obj_property name="label">IF</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/IF_out_Instruction" type="array">
+            <obj_property name="ElementShortName">IF_out_Instruction[31:0]</obj_property>
+            <obj_property name="ObjectShortName">IF_out_Instruction[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group67" type="group">
+         <obj_property name="label">ID</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_in_Instruction" type="array">
+            <obj_property name="ElementShortName">ID_in_Instruction[31:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_in_Instruction[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_in_RegWriteAddr" type="array">
+            <obj_property name="ElementShortName">ID_in_RegWriteAddr[4:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_in_RegWriteAddr[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_in_RegWriteData" type="array">
+            <obj_property name="ElementShortName">ID_in_RegWriteData[31:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_in_RegWriteData[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_in_RegWriteEn" type="logic">
+            <obj_property name="ElementShortName">ID_in_RegWriteEn</obj_property>
+            <obj_property name="ObjectShortName">ID_in_RegWriteEn</obj_property>
+         </wvobject>
+         <wvobject type="divider" fp_name="divider142">
+            <obj_property name="label">In/out</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_RegWrite" type="logic">
+            <obj_property name="ElementShortName">ID_out_RegWrite</obj_property>
+            <obj_property name="ObjectShortName">ID_out_RegWrite</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_MemtoReg" type="logic">
+            <obj_property name="ElementShortName">ID_out_MemtoReg</obj_property>
+            <obj_property name="ObjectShortName">ID_out_MemtoReg</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_MemWrite" type="logic">
+            <obj_property name="ElementShortName">ID_out_MemWrite</obj_property>
+            <obj_property name="ObjectShortName">ID_out_MemWrite</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_ALUControl" type="array">
+            <obj_property name="ElementShortName">ID_out_ALUControl[3:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_out_ALUControl[3:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_ALUSrc" type="logic">
+            <obj_property name="ElementShortName">ID_out_ALUSrc</obj_property>
+            <obj_property name="ObjectShortName">ID_out_ALUSrc</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_RegDst" type="logic">
+            <obj_property name="ElementShortName">ID_out_RegDst</obj_property>
+            <obj_property name="ObjectShortName">ID_out_RegDst</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_RD1" type="array">
+            <obj_property name="ElementShortName">ID_out_RD1[31:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_out_RD1[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_RD2" type="array">
+            <obj_property name="ElementShortName">ID_out_RD2[31:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_out_RD2[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_RtDest" type="array">
+            <obj_property name="ElementShortName">ID_out_RtDest[4:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_out_RtDest[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_RdDest" type="array">
+            <obj_property name="ElementShortName">ID_out_RdDest[4:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_out_RdDest[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/ID_out_ImmOut" type="array">
+            <obj_property name="ElementShortName">ID_out_ImmOut[31:0]</obj_property>
+            <obj_property name="ObjectShortName">ID_out_ImmOut[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group68" type="group">
+         <obj_property name="label">Ex</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_RegWrite" type="logic">
+            <obj_property name="ElementShortName">Ex_in_RegWrite</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_RegWrite</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_MemtoReg" type="logic">
+            <obj_property name="ElementShortName">Ex_in_MemtoReg</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_MemtoReg</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_MemWrite" type="logic">
+            <obj_property name="ElementShortName">Ex_in_MemWrite</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_MemWrite</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_ALUControl" type="array">
+            <obj_property name="ElementShortName">Ex_in_ALUControl[3:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_ALUControl[3:0]</obj_property>
+            <obj_property name="Radix">BINARYRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_ALUSrc" type="logic">
+            <obj_property name="ElementShortName">Ex_in_ALUSrc</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_ALUSrc</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_RegDst" type="logic">
+            <obj_property name="ElementShortName">Ex_in_RegDst</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_RegDst</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_RegSrcA" type="array">
+            <obj_property name="ElementShortName">Ex_in_RegSrcA[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_RegSrcA[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_RegSrcB" type="array">
+            <obj_property name="ElementShortName">Ex_in_RegSrcB[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_RegSrcB[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_RtDest" type="array">
+            <obj_property name="ElementShortName">Ex_in_RtDest[4:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_RtDest[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_RdDest" type="array">
+            <obj_property name="ElementShortName">Ex_in_RdDest[4:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_RdDest[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_in_SignImm" type="array">
+            <obj_property name="ElementShortName">Ex_in_SignImm[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_in_SignImm[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="divider" fp_name="divider142">
+            <obj_property name="label">In/out</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_out_RegWriteOut" type="logic">
+            <obj_property name="ElementShortName">Ex_out_RegWriteOut</obj_property>
+            <obj_property name="ObjectShortName">Ex_out_RegWriteOut</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_out_MemtoRegOut" type="logic">
+            <obj_property name="ElementShortName">Ex_out_MemtoRegOut</obj_property>
+            <obj_property name="ObjectShortName">Ex_out_MemtoRegOut</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_out_MemWriteOut" type="logic">
+            <obj_property name="ElementShortName">Ex_out_MemWriteOut</obj_property>
+            <obj_property name="ObjectShortName">Ex_out_MemWriteOut</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_out_ALUResult" type="array">
+            <obj_property name="ElementShortName">Ex_out_ALUResult[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_out_ALUResult[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_out_WriteData" type="array">
+            <obj_property name="ElementShortName">Ex_out_WriteData[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_out_WriteData[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Ex_out_WriteReg" type="array">
+            <obj_property name="ElementShortName">Ex_out_WriteReg[4:0]</obj_property>
+            <obj_property name="ObjectShortName">Ex_out_WriteReg[4:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group69" type="group">
+         <obj_property name="label">Mem</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_in_RegWrite" type="logic">
+            <obj_property name="ElementShortName">Mem_in_RegWrite</obj_property>
+            <obj_property name="ObjectShortName">Mem_in_RegWrite</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_in_MemtoReg" type="logic">
+            <obj_property name="ElementShortName">Mem_in_MemtoReg</obj_property>
+            <obj_property name="ObjectShortName">Mem_in_MemtoReg</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_in_WriteReg" type="array">
+            <obj_property name="ElementShortName">Mem_in_WriteReg[4:0]</obj_property>
+            <obj_property name="ObjectShortName">Mem_in_WriteReg[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_in_MemWrite" type="logic">
+            <obj_property name="ElementShortName">Mem_in_MemWrite</obj_property>
+            <obj_property name="ObjectShortName">Mem_in_MemWrite</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_in_ALUResult" type="array">
+            <obj_property name="ElementShortName">Mem_in_ALUResult[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Mem_in_ALUResult[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_in_WriteData" type="array">
+            <obj_property name="ElementShortName">Mem_in_WriteData[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Mem_in_WriteData[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="divider" fp_name="divider142">
+            <obj_property name="label">In/out</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_out_RegWriteOut" type="logic">
+            <obj_property name="ElementShortName">Mem_out_RegWriteOut</obj_property>
+            <obj_property name="ObjectShortName">Mem_out_RegWriteOut</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_out_MemtoRegOut" type="logic">
+            <obj_property name="ElementShortName">Mem_out_MemtoRegOut</obj_property>
+            <obj_property name="ObjectShortName">Mem_out_MemtoRegOut</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_out_WriteRegOut" type="array">
+            <obj_property name="ElementShortName">Mem_out_WriteRegOut[4:0]</obj_property>
+            <obj_property name="ObjectShortName">Mem_out_WriteRegOut[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_out_MemOut" type="array">
+            <obj_property name="ElementShortName">Mem_out_MemOut[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Mem_out_MemOut[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/Mem_out_ALUResultOut" type="array">
+            <obj_property name="ElementShortName">Mem_out_ALUResultOut[31:0]</obj_property>
+            <obj_property name="ObjectShortName">Mem_out_ALUResultOut[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group70" type="group">
+         <obj_property name="label">WB</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_in_RegWrite" type="logic">
+            <obj_property name="ElementShortName">WB_in_RegWrite</obj_property>
+            <obj_property name="ObjectShortName">WB_in_RegWrite</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_in_MemtoReg" type="logic">
+            <obj_property name="ElementShortName">WB_in_MemtoReg</obj_property>
+            <obj_property name="ObjectShortName">WB_in_MemtoReg</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_in_ALUResult" type="array">
+            <obj_property name="ElementShortName">WB_in_ALUResult[31:0]</obj_property>
+            <obj_property name="ObjectShortName">WB_in_ALUResult[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_in_ReadData" type="array">
+            <obj_property name="ElementShortName">WB_in_ReadData[31:0]</obj_property>
+            <obj_property name="ObjectShortName">WB_in_ReadData[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_in_WriteReg" type="array">
+            <obj_property name="ElementShortName">WB_in_WriteReg[4:0]</obj_property>
+            <obj_property name="ObjectShortName">WB_in_WriteReg[4:0]</obj_property>
+         </wvobject>
+         <wvobject type="divider" fp_name="divider142">
+            <obj_property name="label">In/out</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_out_RegWriteOut" type="logic">
+            <obj_property name="ElementShortName">WB_out_RegWriteOut</obj_property>
+            <obj_property name="ObjectShortName">WB_out_RegWriteOut</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_out_WriteRegOut" type="array">
+            <obj_property name="ElementShortName">WB_out_WriteRegOut[4:0]</obj_property>
+            <obj_property name="ObjectShortName">WB_out_WriteRegOut[4:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/MIPS_main_demo_A_TB/MIPS_main_1/WB_out_Result" type="array">
+            <obj_property name="ElementShortName">WB_out_Result[31:0]</obj_property>
+            <obj_property name="ObjectShortName">WB_out_Result[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+</wave_config>
