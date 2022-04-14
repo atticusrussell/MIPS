@@ -1,0 +1,5 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "c:/users/attic/appdata/local/temp/tmpso8xij.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'hw10q2SRLatch'
+ERROR: [VRFC 10-3202] cannot read from 'out' object 'q' ; use 'buffer' or 'inout' [c:/users/attic/appdata/local/temp/tmpso8xij.vhd:35]
+ERROR: [VRFC 10-3782] unit 'behavioral' ignored due to previous errors [c:/users/attic/appdata/local/temp/tmpso8xij.vhd:30]
+INFO: [VRFC 10-3070] VHDL file 'c:/users/attic/appdata/local/temp/tmpso8xij.vhd' ignored due to errors

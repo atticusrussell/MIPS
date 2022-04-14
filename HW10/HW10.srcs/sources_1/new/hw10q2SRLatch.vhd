@@ -32,12 +32,12 @@ architecture Behavioral of hw10q2SRLatch is
 begin
     process (s, r) is begin
         if (s = '0' and r = '0') then
-            q_next <=  q;	
+            q_next <=  q;
         elsif (s = '0' and r = '1') then
             q_next <= '0';
 		elsif (s = '1' and r = '0') then
             q_next <= '1';
-		end if; 
+		end if;
     end process;
     q <= q_next;
 end Behavioral;
