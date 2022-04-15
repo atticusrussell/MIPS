@@ -78,28 +78,24 @@ architecture Behavioral of InstructionMemory is
 
 	-- below the following line are the MIPS fib instructions
 	------------------------------------------------------------------------------------------------
-	-- load value of t1 = 0 into register R10: ORI R10, R0, 0x0 
-	x"34",x"0A",x"00",x"00",	-- 0x340A0000
-	
+
+	-- 0x340A0000				load value of t1 = 0 into register R10: 
+	x"34",x"0A",x"00",x"00",	-- ORI R10, R0, 0x0 	# R10 <= $zero | 0x0
 	x"00",x"00",x"00",x"00", 		 
 	x"00",x"00",x"00",x"00",		 
-	x"00",x"00",x"00",x"00",		 
-
-	-- load value of t2 = 1 into register R11: ORI R11, R0, 0x1
-	x"34",x"0B",x"00",x"01",	-- 0x340B0001
-	
-	x"00",x"00",x"00",x"00", 		
-	x"00",x"00",x"00",x"00",		 
-	x"00",x"00",x"00",x"00",
-
-	
+	x"00",x"00",x"00",x"00",		
 	-- 0xAC0A0000				store t1 aka fib(n=1) into data memory
 	x"AC",x"0A",x"00",x"00",	-- SW R10, 0x0(R0) 		# Mem[$zero + 0] <= R10
 	x"00",x"00",x"00",x"00", 		
 	x"00",x"00",x"00",x"00",		 
 	x"00",x"00",x"00",x"00",
 
-	
+
+	-- 0x340B0001				load value of t2 = 1 into register R11: 
+	x"34",x"0B",x"00",x"01",	-- ORI R11, R0, 0x1		# R11 <= 1 = $zero | 0x1
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
 	-- 0xAC0B0001				store t2 aka fib(n=2) into data memory
 	x"AC",x"0B",x"00",x"01",	-- SW R11, 0x1(R0) 		# Mem[$zero + 1] <= R11
 	x"00",x"00",x"00",x"00", 		
