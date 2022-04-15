@@ -12,9 +12,11 @@ architecture Behavioral of InstructionMemory is
     type mem_type is array (0 to 1023) of std_logic_vector (7 downto 0);
     signal inst_mem : mem_type := (
 
---------------------------------------------------------------------------------    
---	lab 6 part A write instructions that test each of our MIPS operations
---	NOTE put 3 NOPs between each instruction for pipelining
+
+--------------------------------------------------------------------------------    =
+--	[x] lab 6 part B write MIPS program that perform the fibonacci sequence and 
+--	generate at least the first 10 Fib numbers
+--
 ------------------------------------------------------------------------
 --	R-type 
 --	R-type instructions interact only with registers
@@ -52,207 +54,156 @@ architecture Behavioral of InstructionMemory is
 -- [x] SW,        op-code: "101011"    Ex. SW      rt, imm(rs) : Mem[R[rs] + imm] <= R[rt]
 -- [x] LW,        op-code: "100011"    Ex. LW      rt, imm(rs) : R[rt] <= Mem[R[rs] + imm]
 --------------------------------------------------------------------------------
-    
-	--load values into registers and into data memory to use to test other operations
+-- 	Program description: 
+-- 	This program will compute the first 10 fibonacci numbers using only the above MIPS instructions that have been implemented in the MIPS microprocessor constructed in VHDL
+-- 	Unique things: 31 unreserved registers, no jumping, no branching, messed up Shifts and multiplies 
+--	Translation: this is gonna be hardcoded like freshman year MECE MATLAB
+--	We'll compute the first 10 numbers and store them in Mem[0] through Mem[9]
+--  fib(n) = fib(n-1) + fib(n-2)
+--  0
+--  1		
+--  1 	= 	1 	+ 	0
+--  2 	= 	1 	+ 	1
+--  3 	= 	2 	+ 	1
+--  5 	= 	3 	+ 	2
+--  8 	= 	5 	+ 	3
+--  13 	= 	8 	+	5
+--  21 	= 	13 	+ 	8
+--  34	=	21	+	13
+--	we need the first and second terms. Will have them be t1 = 0 and t2 = 1
+----------------------------------------------------------------------------------------------------
+	-- NOTE put 3 NOPs between each instruction for pipelining
+
+	x"00",x"00",x"00",x"00",		--HACK: begin with one no-op - this stops  first instruction from disappearing. Possibly because I reset simulation right away in the testbench
+
+	-- below the following line are the MIPS fib instructions
+	------------------------------------------------------------------------------------------------
+	-- load value of t1 = 0 into register R10: ORI R10, R0, 0x0 
+	x"34",x"0A",x"00",x"00",	-- 0x340A0000
 	
-	--HACK: begin with one no-op - this stops my code from breaking. I think it's because I reset in my simulation right away
-	x"00",x"00",x"00",x"00", 
+	x"00",x"00",x"00",x"00", 		 
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",		 
 
-    /* load value of 4 into register R1 using ORI with R0 
-    -- ORI $1, $0, 0x04  | Op-code | rs  |  rt   |     imm          |
-    32x"34010004"          001101   00000  00001   0000000000000100           */
-	x"34",x"01",x"00",x"04",
+	-- load value of t2 = 1 into register R11: ORI R11, R0, 0x1
+	x"34",x"0B",x"00",x"01",	-- 0x340B0001
 	
-    --follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-    x"00",x"00",x"00",x"00", 
-    
-    /* load value of 3 into register R2 using ORI with R0 
-    -- ORI $2, $0, 0x03  | Op-code | rs  |  rt   |     imm          |
-    32x"34020003"          001101   00000  00010   0000000000000011         */
-    x"34",x"02",x"00",x"03",
-
-   --follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-    x"00",x"00",x"00",x"00", 
-
-    /* Add value in R2(exp 3) to value in R1(exp 4) store result in R3 (exp 7)  
-    ADD $3, $1, $2  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"00221820"      000000  00001   00010   00011  00000    100000       */
-    x"00",x"22",x"18",x"20",
-
-    --follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-    x"00",x"00",x"00",x"00", 
-
-    /* store value from R3 (should be 7) into mem addr(rs offset by imm) [0]
-    -- SW $3, 0($0)      | Op-code | rs   |  rt   |     imm          |
-    32x"AC030000"          101011   00000  00011   0000000000000000         */
-    x"AC",x"03",x"00",x"00",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-    x"00",x"00",x"00",x"00", 
-
-    /* Load value from mem addr(rs = 0  offset by imm = 0) [0] into r4 (exp 7)
-    -- LW $4, 0($0)      | Op-code | rs   |  rt   |     imm          |
-    32x"8C040000"          100011   00000  00100   0000000000000000         */
-	x"8C",x"04",x"00",x"00",
-
-	--follow prev with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-    x"00",x"00",x"00",x"00",
-
-	/* AND value in R4(exp 7) with value in R2(exp 3) and store result back in R4 (exp 3)  
-    AND $4, $4, $2  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"00822024"      000000  00100   00010   00100  00000    100100       */
-	x"00",x"82",x"20",x"24",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-	
-	/* SUB value in R2(exp 3) from value in R1(exp 4) and store result in R4 (exp 1)  
-    SUB $4, $1, $2  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"00222022"      000000  00001   00010   00100  00000    100010       */
-	x"00",x"22",x"20",x"22",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/* SLLV value in R3(exp 7) by value in R2(exp 3) and store result in R5 (exp 56 aka 0x38)  
-         rd, rt, rs
-    SLLV R5, R2, R3  | Op-code | rs   | rt    |   rd | sh_amt | function (fake) |
-    32x"00622800"      000000   00011  00010   00101  00000     000000       */
-	x"00",x"62",x"28",x"00",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/* SUB value in R5(exp 56) from value in R1(exp 4) and store result in R6 (exp -52 0xffffffCC)  
-    SUB R6, R1, R5  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"00253022"      000000  00001   00101   00110  00000    100010       */
-	x"00",x"25",x"30",x"22",
-	
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/*  SRAV value in R6(exp -52) by value in R4(exp 1) and store result in R7 (exp -25 aka 0xFFFFFFE6)  
-    rd=rt>>rs	jk tho because swapped this all around and it works??
-	         rd, rs, rt this could all be lies and propoganda
-	    SRAV R7, R4, R6  | Op-code | rs   | rt    |   rd | sh_amt | function (fake) |
-        32x"00C43803"      000000   00110  00100   00111  00000     000011       */
-	x"00",x"C4",x"38",x"03",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/*  SRLV value in R7(exp -25 aka FFFFFFE6) by value in R4(exp 1) and store result in R8 
-    (exp 2,147,483,635 aka 0x7FFFFFF3)  
-			 rd, rs, rt this could all be lies and propoganda
-	    SRLV R8, R4, R6  | Op-code | rs   | rt    |   rd | sh_amt | function (fake) |
-        32x"00E44002"      000000   00111  00100   01000  00000     000010       */
-	x"00",x"e4",x"40",x"02",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/* XOR value in R8(2,147,483,635 aka 0x7FFFFFF3) with value in R7(exp -25 aka 0xFFFFFFE6) and 
-    store result in r9 (exp -2,147,483,627 aka 0x80000015)  
-    XOR R9, R7, R8  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"00E84826"      000000  00111   01000   01001  00000    100110       */
-	x"00",x"E8",x"48",x"26",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-	
-	/* MULTU value in R2(exp 3) from value in R1(exp 4) and store result in R10 (exp 12 aka 0xC)  
-    MULTU R10, R1, R2  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"00225019"        000000    00001   00010  01010  00000    011001       */
-	x"00",x"22",x"50",x"19",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/* OR value in R2(exp 3) from value in R1(exp 4) and store result in R11 (exp 7)  
-    OR R11, R1, R2  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"00225019"     000000    00001   00010  01011  00000    100101       */
-	x"00",x"22",x"58",x"25",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/* XORI value in R10(exp 12 aka 0xC) with imm 0x3 and store result in R12(exp 15 aka 0xF)
-    -- XORI R12, R10, 0x03  | Op-code | rs  |  rt   |     imm          |
-    32x"394C0003"         	 001110    01010  01100   0000000000000011           */
-	x"39",x"4C",x"00",x"03",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
-	x"00",x"00",x"00",x"00", 
-
-	/* ANDI value in R10(exp 12 aka 0xC) with imm 0xC and store result in R13(exp 12 aka 0xC)
-    -- ANDI R13, R12, 0xC  | Op-code | rs  |  rt   |     imm          |
-    32x"318D000C"         	 001100    01100  01101   0000000000001100           */
-	x"31",x"8D",x"00",x"0C",
-
-	--follow it with three NOPs
-    x"00",x"00",x"00",x"00", 
-    x"00",x"00",x"00",x"00",
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
 	x"00",x"00",x"00",x"00",
 
-	/* ADDI value in R10(exp 12 aka 0xC) with imm 0xC and store result in R14(exp 24 aka 0x18)
-    -- ADDI R14, R10, 0xC  | Op-code | rs  |  rt   |     imm          |
-    32x"214E000C"         	 001000   01010  01110   0000000000001100           */
-	x"21",x"4E",x"00",x"0C",
-
-	-- NOTE: the above instructions were tested and confirmed to function properly
+	
+	-- 0xAC0A0000				store t1 aka fib(n=1) into data memory
+	x"AC",x"0A",x"00",x"00",	-- SW R10, 0x0(R0) 		# Mem[$zero + 0] <= R10
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
 
 	
-    -- I-type template (store / load)
-    /* xxxx value of xxxx into mem addr xxxx using xxxx  
-    -- xW $x, $x, 0xXX  | Op-code | rs  |  rt   |     imm          |
-    32x"34020003"          001101   00000  00010   0000000000000011         */
-    --x"34",x"00",x"00",x"00",
+	-- 0xAC0B0001				store t2 aka fib(n=2) into data memory
+	x"AC",x"0B",x"00",x"01",	-- SW R11, 0x1(R0) 		# Mem[$zero + 1] <= R11
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
 
-    -- I-type template (immediate)
-    /* xxxx value of xxxx into mem addr xxxx using xxxx (imm)
-    -- xxxI $x, $x, 0xXX  | Op-code | rs  |  rt   |     imm          |
-    32x"34020003"          00000   00000  00000     0000000000000000         */
-    --x"34",x"02",x"00",x"03",
+	
+	-- 0x016A6020
+	x"01",x"6A",x"60",x"20",	-- ADD R12, R11, R10 	# R12 <= fib(n=3) = fib(n=2) + fib(n=1)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC0C0002
+	x"AC",x"0C",x"00",x"02",	-- SW R12, 0x2(R0) 		# Mem[$zero + 2] <= R12
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
 
-    -- R-type template 
-    /* xxx value in Rx(x) with value in Rx(x) store result in Rx (should be x)  
-    xxx $x, $x, $x  | Op-code | rs   | rt    |   rd | sh_amt | function |
-    32x"0xxxxxxx"      000000  00001   00010   00011  00000    100000       */
-    --x"0x",x"xx",x"xx",x"xx",
 
-	-- TODO: lab 6 part B probably Branch off and write MIPS program that perform the 
-    -- fibonacci sequence and generate at least the first 10 Fib numbers
-    
+	-- 0x018B6820
+	x"01",x"8B",x"68",x"20",	-- ADD R13, R12, R11 	# R13 <= fib(n=4) = fib(n=3) + fib(n=2)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC0D0003
+	x"AC",x"0D",x"00",x"03",	-- SW R13, 0x3(R0) 		# Mem[$zero + 3] <= R13
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+
+	
+	-- 0x01AC7020
+	x"01",x"AC",x"70",x"20",	--ADD R14, R13, R12 	# R14 <= fib(n=5) = fib(n=4) + fib(n=3)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC0E0004
+	x"AC",x"0E",x"00",x"04",	-- SW R14, 0x4(R0) 		# Mem[$zero + 4] <= R14
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+
+	
+	-- 0x01CD7820
+	x"01",x"CD",x"78",x"20",	-- ADD R15, R14, R13		# R15 <= fib(n=6) = fib(n=5) + fib(n=4)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC0F0005
+	x"AC",x"0F",x"00",x"05",	-- SW R15, 0x5(R0) 			# Mem[$zero + 5] <= R15
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+
+
+	-- 0x01EE8020
+	x"01",x"EE",x"80",x"20",	-- ADD R16, R15, R14		# R16 <= fib(n=7) = fib(n=6) + fib(n=5)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC100006
+	x"AC",x"10",x"00",x"06",	-- SW R16, 0x6(R0) 			# Mem[$zero + 6] <= R16
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+
+	
+	-- 0x020F8820
+	x"02",x"0F",x"88",x"20",	-- ADD R17, R16, R15		# R17 <= fib(n=8) = fib(n=7) + fib(n=6)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC110007
+	x"AC",x"11",x"00",x"07",	-- SW R17, 0x7(R0) 			# Mem[$zero + 7] <= R17
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+
+	
+	-- 0x02309020
+	x"02",x"30",x"90",x"20",	-- ADD R18, R17, R16		# R18 <= fib(n=9) = fib(n=8) + fib(n=7)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC120008
+	x"AC",x"12",x"00",x"08",	-- SW R18, 0x8(R0) 			# Mem[$zero + 8] <= R18
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+
+
+	-- 0x02519820
+	x"02",x"51",x"98",x"20",	-- ADD R19, R18, R17		# R19 <= fib(n=10) = fib(n=9) + fib(n=8)
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+	-- 0xAC130009
+	x"AC",x"13",x"00",x"09",	-- SW R19, 0x9(R0) 			# Mem[$zero + 9] <= R19
+	x"00",x"00",x"00",x"00", 		
+	x"00",x"00",x"00",x"00",		 
+	x"00",x"00",x"00",x"00",
+
+	-- the memory addresses should now hold the correct values
+
     others =>x"00"
     );
 begin
