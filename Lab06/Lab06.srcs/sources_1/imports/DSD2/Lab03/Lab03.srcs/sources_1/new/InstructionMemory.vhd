@@ -198,6 +198,18 @@ architecture Behavioral of InstructionMemory is
 	x"00",x"00",x"00",x"00",		 
 	x"00",x"00",x"00",x"00",
 
+	--okay so lab 7 time and doing sythesis it appears that my data memory disappears
+	-- TODO
+	-- [ ] make a LW instruction output
+	-- lets load the first word out of memory
+
+	 /* Load value from mem addr(rs = 0  offset by imm = 5)  into r7 (exp 7)
+    -- LW $4, 0($0)      | Op-code | rs   |  rt   |     imm          |
+    32x"8C070000"          100011   00000  00111   0000000000000101         */
+	x"8C",x"07",x"00",x"05",
+
+
+
 	-- the memory addresses should now hold the correct values
 
     others =>x"00"
