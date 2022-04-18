@@ -37,7 +37,7 @@ architecture bench of MIPS_main_Fib_demo_B_TB is
     signal Result_top: STD_LOGIC_VECTOR (31 downto 0);
 
     --other constants
-	constant C_CLK_PERIOD : time := 20 ns;
+	constant C_CLK_PERIOD : time := 10 ns;
 
 	--[x] make the testbench self-checking for the instructions Written in instructionMemory to test each operation
 
