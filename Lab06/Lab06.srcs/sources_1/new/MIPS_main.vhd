@@ -35,7 +35,7 @@ entity MIPS_main is
         N : integer := 32 -- we could also take this from globals
     );
     Port ( 
-        clk_top : in STD_LOGIC;
+        clk_in2_mips : in STD_LOGIC;
         rst_top : in STD_LOGIC;
 		
 		--required outputs so Vivado doesn't optimize away the design
@@ -44,7 +44,24 @@ entity MIPS_main is
 end MIPS_main;
 
 architecture Behavioral of MIPS_main is
+
+	-- The following code must appear in the VHDL architecture header:
+	------------- Begin Cut here for COMPONENT Declaration ------ COMP_TAG
+	component clk_wiz_0
+	port
+	 (-- Clock in ports
+	  -- Clock out ports
+	  clk_out1          : out    std_logic;
+	  -- Status and control signals
+	  reset             : in     std_logic;
+	  clk_in1           : in     std_logic
+	 );
+	end component;
+	-- COMP_TAG_END ------ End COMPONENT Declaration ------------
+
     --let's make some signals I guess
+
+    signal clk_main : std_logic;
 
     --Instruction Fetch stage signals
     signal IF_out_Instruction: std_logic_vector(N-1 downto 0);
@@ -111,11 +128,25 @@ architecture Behavioral of MIPS_main is
     signal WB_out_Result      : STD_LOGIC_VECTOR (31 downto 0);    
 
 begin
+	-- The following code must appear in the VHDL architecture
+	-- body. Substitute your own instance name and net names.
+	------------- Begin Cut here for INSTANTIATION Template ----- INST_TAG
+	my_clk_wiz : clk_wiz_0
+	   port map ( 
+	  -- Clock out ports  
+	   clk_out1 => clk_main,
+	  -- Status and control signals                
+	   reset => rst_top,
+	   -- Clock in ports
+	   clk_in1 => clk_in2_mips  --100 MHz
+	 );
+	-- INST_TAG_END ------ End INSTANTIATION Template ------------
+
     --enstatiate each of the subcomponents
     InstructionFetch_inst : entity work.InstructionFetch
         port map (
             --------- INPUTS ------------------
-            clk         => clk_top,
+            clk         => clk_main,
 			rst         => rst_top,
             ---------- OUTPUTS ----------------
             Instruction => IF_out_Instruction
@@ -125,7 +156,7 @@ begin
         port map (
             --------- INPUTS ------------------
             Instruction  => ID_in_Instruction,
-            clk          => clk_top,
+            clk          => clk_main,
             RegWriteAddr => ID_in_RegWriteAddr,
             RegWriteData => ID_in_RegWriteData,
             RegWriteEn   => ID_in_RegWriteEn,
@@ -175,7 +206,7 @@ begin
             RegWrite     => Mem_in_RegWrite,
             MemtoReg     => Mem_in_MemtoReg,
             WriteReg     => Mem_in_WriteReg,
-            clk          => clk_top,
+            clk          => clk_main,
             MemWrite     => Mem_in_MemWrite,
             ALUResult    => Mem_in_ALUResult,
             WriteData    => Mem_in_WriteData,
@@ -204,15 +235,15 @@ begin
 
 	--need registers to pass things through
 
-	IFtoIDReg : process (clk_top) begin
-		if rising_edge(clk_top) then
+	IFtoIDReg : process (clk_main) begin
+		if rising_edge(clk_main) then
 			ID_in_Instruction <=  IF_out_Instruction;
 		end if;
     end process IFtoIDReg;  
 
-    IDtoExReg: process (clk_top) is
+    IDtoExReg: process (clk_main) is
     begin
-        if rising_edge(clk_top) then
+        if rising_edge(clk_main) then
             Ex_in_RegWrite 		<=	ID_out_RegWrite;
             Ex_in_MemtoReg 		<=	ID_out_MemtoReg;
             Ex_in_MemWrite 		<=	ID_out_MemWrite;
@@ -227,9 +258,9 @@ begin
 		end if;
 	end process IDtoExReg;
 
-    ExtoMemReg: process (clk_top) is
+    ExtoMemReg: process (clk_main) is
     begin
-        if rising_edge(clk_top) then
+        if rising_edge(clk_main) then
             Mem_in_RegWrite 	<=  Ex_out_RegWriteOut;
             Mem_in_MemtoReg 	<= 	Ex_out_MemtoRegOut;
             Mem_in_MemWrite 	<= 	Ex_out_MemWriteOut;
@@ -239,9 +270,9 @@ begin
         end if;
     end process ExtoMemReg;
 
-    MemtoWBReg : process(clk_top) is
+    MemtoWBReg : process(clk_main) is
 	begin
-        if rising_edge(clk_top) then
+        if rising_edge(clk_main) then
             WB_in_RegWrite		<=  Mem_out_RegWriteOut;
             WB_in_MemtoReg		<=	Mem_out_MemtoRegOut;
             WB_in_ReadData 		<= 	Mem_out_MemOut;

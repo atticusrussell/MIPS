@@ -22,6 +22,7 @@
 library IEEE;
 use IEEE.Std_logic_1164.all;
 use IEEE.Numeric_Std.all;
+use std.env.stop;
 
 entity MIPS_main_Fib_demo_B_TB is
     generic(
@@ -31,13 +32,15 @@ end entity MIPS_main_Fib_demo_B_TB;
 
 architecture bench of MIPS_main_Fib_demo_B_TB is
 
-    signal clk_top: STD_LOGIC := '0';
+    signal clk_100_mhz: STD_LOGIC := '0';
     signal rst_top: STD_LOGIC := '0';
     signal ALUResult_top: STD_LOGIC_VECTOR (31 downto 0);
     signal Result_top: STD_LOGIC_VECTOR (31 downto 0);
 
+    signal result_non0 : STD_LOGIC_VECTOR (31 downto 0);
+
     --other constants
-	constant C_CLK_PERIOD : time := 10 ns;
+	constant C_CLK_PERIOD : time := 10 ns; --makes 100 MHz
 
 	--[x] make the testbench self-checking for the instructions Written in instructionMemory to test each operation
 
@@ -74,11 +77,11 @@ begin
 	-- Entity Under Test
 	-----------------------------------------------------------
 	MIPS_main_1 : entity work.MIPS_main
-		-- generic map (
-		-- 	N => N
-		-- )
+		 --generic map (
+		 --	N => N
+		 --)
 		port map (
-			clk_top       => clk_top,
+			clk_in2_mips   => clk_100_mhz,
 			rst_top       => rst_top,
 			ALUResult_top => ALUResult_top,
             Result_top    => Result_top
@@ -91,45 +94,38 @@ begin
 	-----------------------------------------------------------
 	CLK_GEN : process
 	begin
-        clk_top <= '1';
+        clk_100_mhz <= '1';
 		wait for C_CLK_PERIOD / 2;
-        clk_top <= '0';
+        clk_100_mhz <= '0';
 		wait for C_CLK_PERIOD / 2;
 	end process CLK_GEN;
 
-	
 
-	stimulus: process is begin
+	non0_proc : process(Result_top)
+	begin
+		if Result_top /= 32ux"0" then
+				result_non0  <=  Result_top;
+		end if;
+	end process non0_proc;
+
+	stop_proc : process (result_non0)
+	begin
+		if (result_non0'last_value = 32ux"9") AND (result_non0 = 32ux"5") then
+			report "Calling 'stop'";
+			stop;
+		end if;
+	end process stop_proc;
+
+	stimulus: process 
+		--this variable helps kill the TB
+		--variable last_nonzero_result : std_logic_vector(31 downto 0) := (others => '0');
+		begin
+		--NOTE: temporarily disabled Reset 
+		-- leaving like this for now -- seems unecessary
 		-- Initially Reset the processor
-		rst_top <= '1';
-        wait for C_CLK_PERIOD;
-		rst_top <= '0';
-
-		/* 
-		-- also wait for 0.75x clock period so that am checking result 3/4 of the way through the period so that any sort of delay has had time to finish
-		wait for 0.75* C_CLK_PERIOD;
-        
-		-- Put test bench stimulus code here
-		for i in test_vector_array'range loop
-
-			--wait for 4x clock period because of the 3 No-ops + to get to the current spot in next result period
-			wait for 4*C_CLK_PERIOD;
-
-			--check that the result matches the expected result
-			assert Result_top = test_vector_array(i).Result
-				report "Result is " & to_hstring(signed(Result_top)) &
-                " but should be " & to_hstring(signed(test_vector_array(i).Result))
-				severity error;
-			
-		end loop;
- 
-		-- HACK crude default way that provided tesbenches end. Throw code that aborts process
-        assert false
-          report "Testbench Concluded."
-		  severity failure;
-
-		*/
-		
+		--rst_top <= '1';
+ 		--	wait for C_CLK_PERIOD;
+		--rst_top <= '0';
 	
 		wait;
   	end process;
