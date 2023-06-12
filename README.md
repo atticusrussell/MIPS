@@ -1,8 +1,23 @@
 # Pipelined MIPS Processor
-Written April 15, 2022 by Atticus Russell
+A pipelined MIPS microprocessor written in VHDL and simulated in Xilinx Vivado targeting Basys3 board. Simplified (incomplete) MIPS instruction set. Made in RIT DSD2 (CMPE-260). Synthesized and implemented, but never tested on hardware.
+
+## Usage
+This project was created using Xilinx Vivado 2019.1. Vivado was version controlled using [vivado-git](https://github.com/barbedo/vivado-git). 
+
+To open as a Vivado project: 
+- clone this repo
+- cd to `vivado_project` and launch Vivado
+- using `Tools -> Run Tcl Script...`, select the `clocked_MIPS.tcl` file in the directory this repo was cloned to. This will regenerate the Vivado project from the source files.
+
+
+# Report : Pipelined MIPS Processor Simulation and Timing
+
+Written April 2022 by Atticus Russell
 
 ## Abstract
 The goal of this exercise was to tie together the five stages of the MIPS processor created using VHDL in prior exercises to create a functioning processor. The main code used clocked registers to connect each stage for pipelining. A program was created to verify the functionality of each of the instructions that were previously implemented in the MIPS stages using a self-checking testbench. The processor performed each of these instructions correctly. The processor was further tested by the development and execution of a program using MIPS instructions to compute the first 10 Fibonacci numbers and store them into Data Memory. Due to the lack of branch and jump instructions implemented in the processor, the algorithm developed to calculate the Fibonacci numbers was hard coded instead of recursive. Both the code developed to test each MIPS instruction, and the Fibonacci code displayed correct behavior when behaviorally simulated using Xilinx Vivado. 
+
+Additionally, the design was synthesized and implemented in Vivado, and through incremental testing, was found to work at clock speeds up to 25MHz.
 
 ## Design Methodology
 The complete 32-bit MIPS processor was created by connecting each of the MIPS stages created in prior exercises using clocked registers. A block diagram displaying the connections between the MIPS stages is shown in [Figure 1](#figure-1-block-diagram-of-connections-between-pipelined-mips-processor-stages)
@@ -19,6 +34,11 @@ The objective of this exercise was to calculate the first 10 Fibonacci numbers u
 The devised MIPS program accepts as inputs the first two Fibonacci numbers, which it sums to find the third Fibonacci number, which it stores. The second and third Fibonacci numbers are then summed to calculate the fourth, which is stored. This process repeats six additional times, summing the previous two Fibonacci numbers and storing the result, so that 10 total Fibonacci numbers, including the two provided, are known. Each calculated Fibonacci number is stored into Data Memory, starting at address 0, and the tenth calculated Fibonacci number stored at address 9. This algorithm is implemented through use of the MIPS assembly ORI instruction to load the first Fibonacci number into a specific register. It accepts the number as the immediate value of the instruction, and it is compared against R0, which always holds the value of zero in a MIPS processor (at least traditionally, and also in this program, but only because R0 is never written to after initialization to zero), and the result of the bitwise OR is stored in the specific register. The value of this register is then stored into address zero of Data Memory using the SW MIPS instruction with register R0 and an offset of zero. This process is repeated to load the second Fibonacci number into the next register and the next position in Data Memory (using SW with an offset of one). The sum of the first two Fibonacci numbers is computed using the ADD instruction, specifying the first two registers as addends and the next register as the destination for the sum. This sum is the third Fibonacci number, and it is stored in Data Memory at the third address using the SW instruction. This process is repeated seven additional times, so that all of the first 10 Fibonacci numbers are stored in Data Memory, and then the program ends. 
 
 A VHDL testbench was created to provide clock and reset signals to the MIPS processor. The Fibonacci program was behaviorally simulated, and the contents of Data Memory at the end of the program were inspected to determine the output of the Fibonacci program. 
+
+### Timing
+Setup time is the amount of time prior to the rising edge of the clock in which the inputs of a circuit must not change to avoid metastability. Hold time is the amount of time after the rising edge of the clock in which the inputs of a circuit must not change to avoid metastability. 
+
+The pipelined MIPS processor was initialized with a clock frequency of 10 MHz and was implemented using Xilinx Vivado 2019.1. A timing analysis and post-implementation timing simulation were run, and the results of both were recorded. If the results indicated that neither setup or hold times were violated, the clock was incremented by five MHz and re-implemented. This process was repeated until timing-failure. 
 
 ## Results and Analysis
 The aforementioned pipelined MIPS processor created in VHDL was behaviorally simulated with Xilinx Vivado using the created self-checking VHDL testbench and the machine code created to test each MIPS instruction loaded into Instruction Memory. The waveform generated by this behavioral simulation is shown in [Figure 2](#figure-2-selected-section-of-waveform-generated-by-behavioral-simulation-of-pipelined-mips-processor-running-test-instructions-in-vivado).
@@ -44,23 +64,10 @@ The value calculated by the MIPS program for the tenth number in a Fibonacci seq
 
 The full sequence of ten Fibonacci numbers calculated by the MIPS program are displayed in [Table 1](#table-1-contents-of-data-memory-after-execution-of-mips-program-to-find-first-ten-fibonacci-numbers). These correctly match the values of the first ten numbers in the Fibonacci sequence. Therefore, the MIPS program written to calculate them functioned correctly, and the pipelined MIPS processor functioned as intended. 
 
-## Conclusion
-This exercise expanded upon the creation and simulation of the pipelined MIPS processor components created in previous exercises. The processor assembled in this exercise will be further optimized in the final exercise. Additionally, the process of writing the program in this exercise to find the 10 first values of the Fibonacci sequence showed how critical logic to execute jump and branch instructions is, as without them recursion and loops are not possible. This exercise was successful, as the created pipelined MIPS processor successfully executed each implemented MIPS instruction, and successfully found the first ten numbers of the Fibonacci sequence. 
+### Timing
+##### Note: Timing results shown were captured with Vivado's "Flatten Hierarchy" in default setting, but in re-structuring the project to be built via the tcl file, synthesis was only achievable with this setting set to "None". 
 
 
-# Timing
-Written April 25, 2022 by Atticus Russell
-
-### Note
-Results shown were captured with Vivado's "Flatten Hierarchy" in default setting, but in re-structuring the project to be built via the tcl file, synthesis was only achievable with this setting set to "None". 
-
-## Background
-Setup time is the amount of time prior to the rising edge of the clock in which the inputs of a circuit must not change to avoid metastability. Hold time is the amount of time after the rising edge of the clock in which the inputs of a circuit must not change to avoid metastability. 
-
-## Design Methodology
-The pipelined MIPS processor developed in prior exercises was initialized with a clock frequency of 10 MHz and was implemented using Xilinx Vivado 2019.1. A timing analysis and post-implementation timing simulation were run, and the results of both were recorded. If the results indicated that neither setup or hold times were violated, the clock was incremented by five MHz and re-implemented. This process was repeated until timing-failure. 
-
-## Results and Analysis
 The highest clock frequency at which the processor was implemented and simulated successfully was 25 MHz. Waveforms from each of the successful post-implementation timing simulations in Xilinx Vivado are shown below in Figures [4](#figure-4-waveform-generated-by-post-implementation-timing-simulation-of-pipelined-mips-processor-at-10-mhz-in-vivado) through [7](#figure-7-waveform-generated-by-post-implementation-timing-simulation-of-pipelined-mips-processor-at-25-mhz-in-vivado).
 
 #### Figure 4: *Waveform generated by post-implementation timing simulation of pipelined MIPS processor at 10 MHz in Vivado*
@@ -90,5 +97,7 @@ The signals displayed in Figures [4](#figure-4-waveform-generated-by-post-implem
 [Table 2](#table-2-information-from-post-implementation-timing-summary-of-created-mips-processor-in-xilinx-vivado-at-different-clock-frequencies) shows how the setup slack decreased as the the frequency of the clock was increased, and how setup slack became negative when the clock was set to 30 MHz, which violated timing requirements and caused the implementation of the design to fail. Additionally, [Table 2](#table-2-information-from-post-implementation-timing-summary-of-created-mips-processor-in-xilinx-vivado-at-different-clock-frequencies) shows that (with the notable exception of at 15 MHz) the amount of hold slack also decreased as the clock frequency increased, but at a much slower rate than the setup slack. The hold slack was still at a positive value when the design failed to meet timing at 30 MHz, therefore it was not the cause of the timing violation.
 
 ## Conclusion
-This exercise concluded the testing and simulation of the pipelined MIPS processor created in previous exercises, which was finally implemented. Setup and hold slack were both found to decrease as the clock frequency was increased, which is consistent with expected behavior. 
-The implemented MIPS processor was not optimized, and likely could reach a higher clock speed after optimization, which could include a reduction of NOPs between certain instructions, a re-examination of the registers used for pipelining, and a restructuring of the multiplier component of the ALU. This exercise was successful, as the created pipelined MIPS processor successfully implemented and executed each MIPS instruction from the previously created Fibonacci program, and was capable of doing so across a range of clock frequencies. 
+This exercise expanded upon the creation and simulation of the pipelined MIPS processor components created in previous exercises. The processor assembled in this exercise will be further optimized in the final exercise. Additionally, the process of writing the program in this exercise to find the 10 first values of the Fibonacci sequence showed how critical logic to execute jump and branch instructions is, as without them recursion and loops are not possible. The created pipelined MIPS processor successfully executed each implemented MIPS instruction, and successfully found the first ten numbers of the Fibonacci sequence. 
+
+The MIPS processor was additionally synthesized and implemented. Setup and hold slack were both found to decrease as the clock frequency was increased, which is consistent with expected behavior. 
+The implemented MIPS processor was not optimized, and likely could reach a higher clock speed after optimization, which could include a reduction of NOPs between certain instructions, a re-examination of the registers used for pipelining, and a restructuring of the multiplier component of the ALU. This exercise was successful, as the created pipelined MIPS processor successfully implemented and executed each MIPS instruction from the created Fibonacci program and found the first ten numbers of the Fibonacci sequence across a range of clock frequencies. 
